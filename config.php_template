@@ -1,0 +1,59 @@
+<?php
+// =============================================================================
+//  FRONIUS SOLAR — Konfigurationsdatei
+//  Wird von fronius_dashboard.php und fronius_influx.php eingebunden.
+// =============================================================================
+
+return [
+
+    // ── Wechselrichter ─────────────────────────────────────────────────────
+    // Für jeden WR: Name, IP-Adresse und die DeviceId (fast immer 1).
+    // Bei mehreren WR am selben Datalogger: DeviceId 1, 2, 3 … angeben
+    // und alle auf dieselbe IP zeigen lassen.
+    'inverters' => [
+        1 => [
+            'name'      => 'Symo Dach',
+            'ip'        => '192.168.1.56',   // <-- anpassen
+            'device_id' => 1,
+            'mppt'      => 2,                 // Anzahl MPPT-Eingänge (Strings)
+        ],
+        2 => [
+            'name'      => 'Primo Gartenhaus',
+            'ip'        => '192.168.1.57',   // <-- anpassen
+            'device_id' => 1,
+            'mppt'      => 2,
+        ],
+    ],
+
+    // ── API ────────────────────────────────────────────────────────────────
+    'api_timeout' => 5,   // Sekunden bis Timeout pro API-Aufruf
+
+    // ── InfluxDB ───────────────────────────────────────────────────────────
+    'influxdb' => [
+
+        // Protokollversion: 1 oder 2
+        'version'  => 2,
+
+        // Host (mit Schema, ohne abschließenden Slash)
+        'host'     => 'http://localhost',
+        'port'     => 8086,
+
+        // ── InfluxDB 1.x ──────────────────────────────────────────────────
+        'v1' => [
+            'database' => 'solar',
+            'username' => '',          // leer lassen wenn keine Auth
+            'password' => '',
+        ],
+
+        // ── InfluxDB 2.x ──────────────────────────────────────────────────
+        'v2' => [
+            'org'      => 'meine-org',
+            'bucket'   => 'solar',
+            'token'    => 'mein-api-token',   // API Token aus InfluxDB UI
+        ],
+
+        // Measurement-Name (gilt für v1 und v2)
+        'measurement' => 'fronius_inverter',
+    ],
+
+];
